@@ -5,9 +5,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'home_provider.freezed.dart';
 
-final homeProvider =
-    StateNotifierProvider<CalculatorNotifier, AsyncValue<CalculatorState>>(
-        (ref) {
+final homeProvider = StateNotifierProvider.autoDispose<CalculatorNotifier,
+    AsyncValue<CalculatorState>>((ref) {
   return CalculatorNotifier(
     arguments: ref.watch(calculatorInputProvider),
   );

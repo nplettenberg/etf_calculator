@@ -1,6 +1,5 @@
 import 'package:etf_calculator/components/calculator/provider/calculator_input_provider.dart';
 import 'package:etf_calculator/components/components.dart';
-import 'package:etf_calculator/widgets/botton_padding.dart';
 import 'package:etf_calculator/widgets/widgets.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 class HomePage extends ConsumerWidget {
-  HomePage({Key? key}) : super(key: key);
-
   static const String page = 'calculator_page';
-
-  final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -32,70 +27,90 @@ class HomePage extends ConsumerWidget {
           )
         ],
       ),
-      body: Column(
+      body: Stack(
         children: [
-          const TopPadding(),
-          result.when<Widget>(
-            data: (data) {
-              return Expanded(
-                child: Padding(
-                  padding: display.padding * 2,
-                  child: LineChart(
-                    LineChartData(
-                      gridData: FlGridData(
-                        show: false,
-                      ),
-                      borderData: FlBorderData(
-                        show: false,
-                      ),
-                      titlesData: FlTitlesData(
-                        topTitles: SideTitles(
-                          showTitles: false,
-                        ),
-                        leftTitles: SideTitles(
-                          showTitles: false,
-                        ),
-                      ),
-                      lineBarsData: [
-                        LineChartBarData(
-                          isCurved: true,
-                          barWidth: 5,
-                          dotData: FlDotData(
+          Column(
+            children: [
+              result.when<Widget>(
+                data: (data) {
+                  return Expanded(
+                    flex: 9,
+                    child: Padding(
+                      padding: display.padding,
+                      child: LineChart(
+                        LineChartData(
+                          gridData: FlGridData(
                             show: false,
                           ),
-                          colors: [
-                            theme.primaryColor,
-                            Colors.greenAccent.withOpacity(.5),
+                          borderData: FlBorderData(
+                            show: false,
+                          ),
+                          titlesData: FlTitlesData(
+                            topTitles: SideTitles(
+                              showTitles: false,
+                            ),
+                            leftTitles: SideTitles(
+                              showTitles: false,
+                            ),
+                          ),
+                          lineBarsData: [
+                            LineChartBarData(
+                              isCurved: true,
+                              barWidth: 5,
+                              dotData: FlDotData(
+                                show: false,
+                              ),
+                              colors: [
+                                theme.primaryColor,
+                                Colors.greenAccent.withOpacity(.5),
+                              ],
+                              spots: data.series.entries
+                                  .map<FlSpot>(
+                                    (e) => FlSpot(e.key.toDouble(), e.value),
+                                  )
+                                  .toList(),
+                            )
                           ],
-                          spots: data.series.entries
-                              .map<FlSpot>(
-                                (e) => FlSpot(e.key.toDouble(), e.value),
-                              )
-                              .toList(),
-                        )
-                      ],
+                        ),
+                      ),
                     ),
+                  );
+                },
+                error: (_, __) => const Center(
+                  child: Text('error :('),
+                ),
+                loading: () => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+              DefaultSpacer.vertical(),
+              const Expanded(child: SizedBox())
+            ],
+          ),
+          DraggableScrollableSheet(
+            snap: true,
+            minChildSize: .1,
+            initialChildSize: .35,
+            builder: (context, controller) {
+              return Container(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 16,
+                  horizontal: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: theme.primaryColor.withOpacity(.9),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(8),
+                    topRight: Radius.circular(8),
                   ),
+                ),
+                child: SingleChildScrollView(
+                  controller: controller,
+                  child: CalculatorInputFields(),
                 ),
               );
             },
-            error: (_, __) => const Expanded(
-              child: Center(
-                child: Text('error :('),
-              ),
-            ),
-            loading: () => const Expanded(
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
           ),
-          DefaultSpacer.vertical(vertical: 32),
-          Padding(
-            padding: display.padding,
-            child: CalculatorInputFields(formKey: formKey),
-          ),
-          const BottomPadding(),
         ],
       ),
     );
@@ -103,79 +118,86 @@ class HomePage extends ConsumerWidget {
 }
 
 class CalculatorInputFields extends ConsumerWidget {
-  const CalculatorInputFields({
-    Key? key,
-    this.formKey,
-  }) : super(key: key);
-
-  final Key? formKey;
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final input = ref.watch(calculatorInputProvider);
     final inputNotifier = ref.read(calculatorInputProvider.notifier);
 
-    return FormBuilder(
-      key: formKey,
-      child: Column(
-        children: [
-          FormBuilderTextField(
-            name: 'initialAmount',
-            initialValue: '${input.initialAmount}',
-            decoration: InputDecoration(
-              label: const Text('current amount'),
-              border: OutlineInputBorder(
+    return DefaultTextStyle(
+      style: const TextStyle(
+        color: Colors.black,
+      ),
+      child: FormBuilder(
+        child: Column(
+          children: [
+            Container(
+              height: 3,
+              width: 25,
+              decoration: BoxDecoration(
+                color: Colors.black,
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            keyboardType: TextInputType.number,
-            onChanged: (value) {
-              inputNotifier.state = input.copyWith(
-                initialAmount: double.parse(value!),
-              );
-            },
-          ),
-          DefaultSpacer.vertical(),
-          FormBuilderSlider(
-            name: 'years',
-            decoration: InputDecoration(
-              label: const Text('years'),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+            DefaultSpacer.vertical(vertical: 16),
+            FormBuilderTextField(
+              name: 'initialAmount',
+              style: const TextStyle(
+                color: Colors.black,
               ),
-            ),
-            initialValue: input.years,
-            numberFormat: NumberFormat('0'),
-            min: 1,
-            max: 50,
-            divisions: 50,
-            onChanged: (value) {
-              inputNotifier.state = input.copyWith(
-                years: value!.ceilToDouble(),
-              );
-            },
-          ),
-          DefaultSpacer.vertical(),
-          FormBuilderSlider(
-            name: 'expectedReturn',
-            decoration: InputDecoration(
-              label: const Text('expected return'),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+              initialValue: '${input.initialAmount}',
+              decoration: const InputDecoration(
+                labelStyle: TextStyle(
+                  color: Colors.black,
+                ),
+                label: Text('current amount'),
               ),
+              keyboardType: TextInputType.number,
+              onChanged: (value) {
+                inputNotifier.state = input.copyWith(
+                  initialAmount: double.parse(value!),
+                );
+              },
             ),
-            initialValue: input.expectedReturn,
-            numberFormat: NumberFormat('0'),
-            min: 0,
-            max: 100,
-            divisions: 100,
-            onChanged: (value) {
-              inputNotifier.state = input.copyWith(
-                years: value!.ceilToDouble(),
-              );
-            },
-          ),
-        ],
+            DefaultSpacer.vertical(),
+            FormBuilderSlider(
+              name: 'years',
+              decoration: const InputDecoration(
+                label: Text('years'),
+                labelStyle: TextStyle(color: Colors.black),
+                isCollapsed: true,
+              ),
+              initialValue: input.years,
+              numberFormat: NumberFormat('0'),
+              min: 1,
+              max: 50,
+              divisions: 50,
+              onChanged: (value) {
+                inputNotifier.state = input.copyWith(
+                  years: value!.ceilToDouble(),
+                );
+              },
+            ),
+            DefaultSpacer.vertical(),
+            FormBuilderSlider(
+              name: 'expectedReturn',
+              decoration: const InputDecoration(
+                labelStyle: TextStyle(color: Colors.black),
+                label: Text('expected return'),
+                isCollapsed: true,
+              ),
+              initialValue: input.expectedReturn,
+              numberFormat: NumberFormat('0'),
+              min: 0,
+              max: 100,
+              divisions: 100,
+              onChanged: (value) {
+                inputNotifier.state = input.copyWith(
+                  expectedReturn: value!.ceilToDouble(),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
