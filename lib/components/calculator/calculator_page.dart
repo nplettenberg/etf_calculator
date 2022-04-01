@@ -18,14 +18,8 @@ class HomePage extends ConsumerWidget {
       length: tabContents.length,
       child: Scaffold(
         appBar: AppBar(
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.settings,
-              ),
-            )
-          ],
+          title: const Text('etf calculator'),
+          centerTitle: true,
           bottom: const TabBar(
             tabs: [
               Tab(text: 'graph'),
