@@ -1,11 +1,11 @@
-import 'package:etf_calculator/components/calculator/provider/calculator_input_provider.dart';
+import 'package:etf_calculator/components/components.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'home_provider.freezed.dart';
+part 'calculator_provider.freezed.dart';
 
-final homeProvider = StateNotifierProvider.autoDispose<CalculatorNotifier,
+final calculatorProvider = StateNotifierProvider.autoDispose<CalculatorNotifier,
     AsyncValue<CalculatorState>>((ref) {
   return CalculatorNotifier(
     arguments: ref.watch(calculatorInputProvider),
@@ -40,19 +40,36 @@ class CalculatorNotifier extends StateNotifier<AsyncValue<CalculatorState>> {
   }
 }
 
-Map<int, double> _calculateSeries(CalculatorArguments arguments) {
+Map<int, CalculatedYear> _calculateSeries(CalculatorArguments arguments) {
   double amount = arguments.initialAmount;
 
-  final series = <int, double>{
-    0: amount,
+  final series = <int, CalculatedYear>{
+    0: CalculatedYear(
+      totalAmount: amount,
+      totalPaidAmount: amount,
+      paidAmount: amount,
+      returns: 0,
+    ),
   };
 
   for (int i = 1; i <= arguments.years; i++) {
-    amount += (amount * (arguments.expectedReturn / 100));
+    final CalculatedYear previousYear = series[i - 1]!;
+
+    final paidAmount = arguments.monthlyPayment * 12;
+    final preReturnsAmount = (previousYear.totalAmount + paidAmount);
+    final yearlyReturns = preReturnsAmount * (arguments.expectedReturn / 100);
+    final totalAmount = preReturnsAmount + yearlyReturns;
+
     if (amount >= 10000000) {
       throw Exception('Amount to high!');
     }
-    series[i] = amount;
+
+    series[i] = CalculatedYear(
+      totalAmount: totalAmount,
+      totalPaidAmount: previousYear.totalPaidAmount + paidAmount,
+      paidAmount: paidAmount,
+      returns: yearlyReturns,
+    );
   }
 
   if (series.length >= 50) {
@@ -62,9 +79,23 @@ Map<int, double> _calculateSeries(CalculatorArguments arguments) {
   return series;
 }
 
+class CalculatedYear {
+  const CalculatedYear({
+    required this.totalAmount,
+    required this.totalPaidAmount,
+    required this.paidAmount,
+    required this.returns,
+  });
+
+  final double totalAmount;
+  final double totalPaidAmount;
+  final double paidAmount;
+  final double returns;
+}
+
 @freezed
 class CalculatorState with _$CalculatorState {
   factory CalculatorState({
-    @Default({}) Map<int, double> series,
+    @Default({}) Map<int, CalculatedYear> series,
   }) = _CalculatorState;
 }

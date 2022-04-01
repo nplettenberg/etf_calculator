@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 class DefaultSpacer extends StatelessWidget {
-  DefaultSpacer({
+  const DefaultSpacer({
     this.horizontal = 8,
     this.vertical = 8,
   });
 
-  DefaultSpacer.vertical({
+  const DefaultSpacer.vertical({
     this.vertical = 8,
   }) : horizontal = 0;
 
-  DefaultSpacer.horizontal({
+  const DefaultSpacer.horizontal({
     this.horizontal = 8,
   }) : vertical = 0;
 

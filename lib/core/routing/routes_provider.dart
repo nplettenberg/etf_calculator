@@ -11,7 +11,7 @@ final routesProvider = Provider<List<GoRoute>>((ref) {
       pageBuilder: (_, state) {
         return MaterialPage<void>(
           key: state.pageKey,
-          child: HomePage(),
+          child: const HomePage(),
         );
       },
     ),

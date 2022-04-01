@@ -9,6 +9,7 @@ final calculatorInputProvider =
     years: 10,
     initialAmount: 100,
     expectedReturn: 5,
+    monthlyPayment: 500,
   );
 });
 
@@ -18,5 +19,6 @@ class CalculatorArguments with _$CalculatorArguments {
     required double years,
     required double initialAmount,
     required double expectedReturn,
+    required double monthlyPayment,
   }) = _CalculatorArguments;
 }

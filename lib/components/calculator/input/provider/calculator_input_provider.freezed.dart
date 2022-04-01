@@ -21,11 +21,13 @@ class _$CalculatorArgumentsTearOff {
   _CalculatorArguments call(
       {required double years,
       required double initialAmount,
-      required double expectedReturn}) {
+      required double expectedReturn,
+      required double monthlyPayment}) {
     return _CalculatorArguments(
       years: years,
       initialAmount: initialAmount,
       expectedReturn: expectedReturn,
+      monthlyPayment: monthlyPayment,
     );
   }
 }
@@ -38,6 +40,7 @@ mixin _$CalculatorArguments {
   double get years => throw _privateConstructorUsedError;
   double get initialAmount => throw _privateConstructorUsedError;
   double get expectedReturn => throw _privateConstructorUsedError;
+  double get monthlyPayment => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CalculatorArgumentsCopyWith<CalculatorArguments> get copyWith =>
@@ -49,7 +52,11 @@ abstract class $CalculatorArgumentsCopyWith<$Res> {
   factory $CalculatorArgumentsCopyWith(
           CalculatorArguments value, $Res Function(CalculatorArguments) then) =
       _$CalculatorArgumentsCopyWithImpl<$Res>;
-  $Res call({double years, double initialAmount, double expectedReturn});
+  $Res call(
+      {double years,
+      double initialAmount,
+      double expectedReturn,
+      double monthlyPayment});
 }
 
 /// @nodoc
@@ -66,6 +73,7 @@ class _$CalculatorArgumentsCopyWithImpl<$Res>
     Object? years = freezed,
     Object? initialAmount = freezed,
     Object? expectedReturn = freezed,
+    Object? monthlyPayment = freezed,
   }) {
     return _then(_value.copyWith(
       years: years == freezed
@@ -80,6 +88,10 @@ class _$CalculatorArgumentsCopyWithImpl<$Res>
           ? _value.expectedReturn
           : expectedReturn // ignore: cast_nullable_to_non_nullable
               as double,
+      monthlyPayment: monthlyPayment == freezed
+          ? _value.monthlyPayment
+          : monthlyPayment // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -91,7 +103,11 @@ abstract class _$CalculatorArgumentsCopyWith<$Res>
           $Res Function(_CalculatorArguments) then) =
       __$CalculatorArgumentsCopyWithImpl<$Res>;
   @override
-  $Res call({double years, double initialAmount, double expectedReturn});
+  $Res call(
+      {double years,
+      double initialAmount,
+      double expectedReturn,
+      double monthlyPayment});
 }
 
 /// @nodoc
@@ -110,6 +126,7 @@ class __$CalculatorArgumentsCopyWithImpl<$Res>
     Object? years = freezed,
     Object? initialAmount = freezed,
     Object? expectedReturn = freezed,
+    Object? monthlyPayment = freezed,
   }) {
     return _then(_CalculatorArguments(
       years: years == freezed
@@ -124,6 +141,10 @@ class __$CalculatorArgumentsCopyWithImpl<$Res>
           ? _value.expectedReturn
           : expectedReturn // ignore: cast_nullable_to_non_nullable
               as double,
+      monthlyPayment: monthlyPayment == freezed
+          ? _value.monthlyPayment
+          : monthlyPayment // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -134,7 +155,8 @@ class _$_CalculatorArguments implements _CalculatorArguments {
   _$_CalculatorArguments(
       {required this.years,
       required this.initialAmount,
-      required this.expectedReturn});
+      required this.expectedReturn,
+      required this.monthlyPayment});
 
   @override
   final double years;
@@ -142,10 +164,12 @@ class _$_CalculatorArguments implements _CalculatorArguments {
   final double initialAmount;
   @override
   final double expectedReturn;
+  @override
+  final double monthlyPayment;
 
   @override
   String toString() {
-    return 'CalculatorArguments(years: $years, initialAmount: $initialAmount, expectedReturn: $expectedReturn)';
+    return 'CalculatorArguments(years: $years, initialAmount: $initialAmount, expectedReturn: $expectedReturn, monthlyPayment: $monthlyPayment)';
   }
 
   @override
@@ -157,7 +181,9 @@ class _$_CalculatorArguments implements _CalculatorArguments {
             const DeepCollectionEquality()
                 .equals(other.initialAmount, initialAmount) &&
             const DeepCollectionEquality()
-                .equals(other.expectedReturn, expectedReturn));
+                .equals(other.expectedReturn, expectedReturn) &&
+            const DeepCollectionEquality()
+                .equals(other.monthlyPayment, monthlyPayment));
   }
 
   @override
@@ -165,7 +191,8 @@ class _$_CalculatorArguments implements _CalculatorArguments {
       runtimeType,
       const DeepCollectionEquality().hash(years),
       const DeepCollectionEquality().hash(initialAmount),
-      const DeepCollectionEquality().hash(expectedReturn));
+      const DeepCollectionEquality().hash(expectedReturn),
+      const DeepCollectionEquality().hash(monthlyPayment));
 
   @JsonKey(ignore: true)
   @override
@@ -178,7 +205,8 @@ abstract class _CalculatorArguments implements CalculatorArguments {
   factory _CalculatorArguments(
       {required double years,
       required double initialAmount,
-      required double expectedReturn}) = _$_CalculatorArguments;
+      required double expectedReturn,
+      required double monthlyPayment}) = _$_CalculatorArguments;
 
   @override
   double get years;
@@ -186,6 +214,8 @@ abstract class _CalculatorArguments implements CalculatorArguments {
   double get initialAmount;
   @override
   double get expectedReturn;
+  @override
+  double get monthlyPayment;
   @override
   @JsonKey(ignore: true)
   _$CalculatorArgumentsCopyWith<_CalculatorArguments> get copyWith =>

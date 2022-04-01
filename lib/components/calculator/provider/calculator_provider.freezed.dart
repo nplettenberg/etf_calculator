@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'home_provider.dart';
+part of 'calculator_provider.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$CalculatorStateTearOff {
   const _$CalculatorStateTearOff();
 
-  _CalculatorState call({Map<int, double> series = const {}}) {
+  _CalculatorState call({Map<int, CalculatedYear> series = const {}}) {
     return _CalculatorState(
       series: series,
     );
@@ -30,7 +30,7 @@ const $CalculatorState = _$CalculatorStateTearOff();
 
 /// @nodoc
 mixin _$CalculatorState {
-  Map<int, double> get series => throw _privateConstructorUsedError;
+  Map<int, CalculatedYear> get series => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CalculatorStateCopyWith<CalculatorState> get copyWith =>
@@ -42,7 +42,7 @@ abstract class $CalculatorStateCopyWith<$Res> {
   factory $CalculatorStateCopyWith(
           CalculatorState value, $Res Function(CalculatorState) then) =
       _$CalculatorStateCopyWithImpl<$Res>;
-  $Res call({Map<int, double> series});
+  $Res call({Map<int, CalculatedYear> series});
 }
 
 /// @nodoc
@@ -62,7 +62,7 @@ class _$CalculatorStateCopyWithImpl<$Res>
       series: series == freezed
           ? _value.series
           : series // ignore: cast_nullable_to_non_nullable
-              as Map<int, double>,
+              as Map<int, CalculatedYear>,
     ));
   }
 }
@@ -74,7 +74,7 @@ abstract class _$CalculatorStateCopyWith<$Res>
           _CalculatorState value, $Res Function(_CalculatorState) then) =
       __$CalculatorStateCopyWithImpl<$Res>;
   @override
-  $Res call({Map<int, double> series});
+  $Res call({Map<int, CalculatedYear> series});
 }
 
 /// @nodoc
@@ -96,23 +96,33 @@ class __$CalculatorStateCopyWithImpl<$Res>
       series: series == freezed
           ? _value.series
           : series // ignore: cast_nullable_to_non_nullable
-              as Map<int, double>,
+              as Map<int, CalculatedYear>,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_CalculatorState implements _CalculatorState {
+class _$_CalculatorState
+    with DiagnosticableTreeMixin
+    implements _CalculatorState {
   _$_CalculatorState({this.series = const {}});
 
   @JsonKey()
   @override
-  final Map<int, double> series;
+  final Map<int, CalculatedYear> series;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'CalculatorState(series: $series)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'CalculatorState'))
+      ..add(DiagnosticsProperty('series', series));
   }
 
   @override
@@ -134,10 +144,11 @@ class _$_CalculatorState implements _CalculatorState {
 }
 
 abstract class _CalculatorState implements CalculatorState {
-  factory _CalculatorState({Map<int, double> series}) = _$_CalculatorState;
+  factory _CalculatorState({Map<int, CalculatedYear> series}) =
+      _$_CalculatorState;
 
   @override
-  Map<int, double> get series;
+  Map<int, CalculatedYear> get series;
   @override
   @JsonKey(ignore: true)
   _$CalculatorStateCopyWith<_CalculatorState> get copyWith =>
