@@ -15,6 +15,7 @@
 *.iws
 .idea/
 
+# fvm
 .fvm/flutter_sdk
 
 # generated files
