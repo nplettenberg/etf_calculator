@@ -12,6 +12,13 @@
 | :---: | :---: | :---: |
 | <kbd><img src="https://user-images.githubusercontent.com/30232511/161340446-e9e58ec0-1671-4d0f-aa05-dc8259f11df4.png"/></kbd> | <kbd><img src="https://user-images.githubusercontent.com/30232511/161340436-0446e218-091d-4d0f-856d-0425e18d135e.png"/></kbd> | <kbd><img src="https://user-images.githubusercontent.com/30232511/161340432-dd06ea37-42b9-48ef-9a2f-f2eb6fb293df.png"/></kbd> |
 
+## Todo's
+  - [ ] Add dynamics to monthly pament (e.g. increase monthly payment about 5% each year)
+  - [ ] Restyle input form
+  - [ ] Make table results clearer
+  - [ ] Toggle graphs in grapfical result
+  - [ ] Theme settings
+  - [ ] Currencies
 
 ## Dependencies
  * Riverpod
